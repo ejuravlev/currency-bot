@@ -22,4 +22,4 @@ RUN pip install --no-cache -r requirements.txt
 
 COPY src .
 
-CMD ["python3", "app.py"]
+CMD ["python3", "bot.py"]

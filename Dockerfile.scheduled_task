@@ -21,10 +21,11 @@ COPY ./requirements.txt /app
 RUN pip install --no-cache -r requirements.txt && \
     apt update -y && \
     apt install cron -y && \
-    crontab -l | { cat; echo "0 10 * * * python3 /app/scheduled_task.py"; } | crontab -
+    touch /var/log/cron.log
 
 COPY src .
 
-RUN chmod 0644 /app/scheduled_task.py
+RUN chmod 0644 /app/scheduled_task.py && \
+    crontab -l | { cat; echo "* 10 * * * python3 /app/scheduled_task.py >> /var/log/cron.log"; } | crontab -
 
-CMD cron
+CMD (cron -f &) && tail -f /var/log/cron.log
