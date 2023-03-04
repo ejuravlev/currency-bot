@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  scheduled_task:
+    container_name: tg_bot_scheduled_task
+    build:
+      context: .
+      dockerfile: Dockerfile.scheduled_task
+      args:
+        - BOT_TOKEN=${BOT_TOKEN}
+        - CURRENCY_API=${CURRENCY_API}
+        - CHAT_ID=${CHAT_ID}
+    restart: always
+  bot:
+    container_name: tg_bot
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+      args:
+        - BOT_TOKEN=${BOT_TOKEN}
+        - CURRENCY_API=${CURRENCY_API}
+        - CHAT_ID=${CHAT_ID}
+    restart: always

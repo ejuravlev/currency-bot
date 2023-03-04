@@ -1,0 +1,25 @@
+FROM python:3.11.2-slim-buster
+
+ENV \
+  # python:
+  PYTHONFAULTHANDLER=1 \
+  PYTHONUNBUFFERED=1 \
+  PYTHONHASHSEED=random \
+  # pip:
+  PIP_NO_CACHE_DIR=off \
+  PIP_DISABLE_PIP_VERSION_CHECK=on \
+  PIP_DEFAULT_TIMEOUT=100
+
+ARG BOT_TOKEN
+ARG CURRENCY_API
+ARG CHAT_ID
+
+WORKDIR /app
+
+COPY ./requirements.txt /app
+
+RUN pip install --no-cache -r requirements.txt
+
+COPY src .
+
+CMD ["python3", "app.py"]
